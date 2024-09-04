@@ -128,3 +128,15 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+# Added by cargo
+
+/target
+
+
+# Added by cargo
+#
+# already existing elements were commented out
+
+#/target
