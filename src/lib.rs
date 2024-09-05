@@ -24,16 +24,20 @@ pub fn linear_search<T>(list: &[T], value: T) -> Option<usize>
 */
 fn binary_search(list: &[i32], value: i32) -> Option<usize> {
     let length = list.len();
+
+    // value not in an empty list
+    if length == 0 {
+        return None
+    }
+
     let mut left : usize = 0;
-    // account for the list being empty when calculating the right bound of the search range
-    let mut right : usize = if length == 0 {0} else {length - 1};
+    let mut right : usize = length - 1;
     let mut mid : usize;
    
     // TODO explain why this condition
-    // TODO determine whether left == right ever possible
     // TODO consider whether mid + 1 can ever go out of bounds
     // TODO consider whether mid - 1 can ever go below 0
-    while left < right {
+    while left <= right {
         // Below formula is equivalent to (right - left)/2 + left
         mid  = (left + right) / 2; 
         match list[mid].cmp(&value) {
@@ -107,4 +111,15 @@ mod tests {
          let result = binary_search(&list, val);
          assert_eq!(result, oracle);
      }
+
+     #[test]
+     fn bs_num_present_singleton_list() {
+         let list = [50];
+         let val = 50;
+         let oracle = linear_search(&list, val);
+         let result = binary_search(&list, val);
+         assert_eq!(result, oracle);
+     }
+
+    
 }
