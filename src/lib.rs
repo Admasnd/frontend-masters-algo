@@ -30,20 +30,23 @@ fn binary_search(list: &[i32], value: i32) -> Option<usize> {
         return None
     }
 
+    // left and right represent indices for the left and right bounds of the search range
     let mut left : usize = 0;
     let mut right : usize = length - 1;
     let mut mid : usize;
    
-    // TODO explain why this condition
-    // TODO consider whether mid + 1 can ever go out of bounds
-    // TODO fix bug where mid - 1 can sometimes go below 0
+    /* The search range converges to 1 where left = right. 
+    * At this point, whether list[mid] < value or list[mid] > value,
+    * left > right which will break out of the loop.
+    */
     while left <= right {
-        // Below formula is equivalent to (right - left)/2 + left
+        // Below formula to find the middle of range is equivalent to (right - left)/2 + left
         mid  = (left + right) / 2; 
         match list[mid].cmp(&value) {
             Equal => return Some(mid),
             Less => left = mid + 1, // look on right half of range
-            Greater => right = mid - 1 // look at left half of range
+            // looks at left half of range. Need condition because mid can be 0
+            Greater => if mid == 0 {break} else {right = mid - 1}
         }
     }
     // could not find value in list
