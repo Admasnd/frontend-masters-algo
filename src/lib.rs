@@ -36,7 +36,7 @@ fn binary_search(list: &[i32], value: i32) -> Option<usize> {
    
     // TODO explain why this condition
     // TODO consider whether mid + 1 can ever go out of bounds
-    // TODO consider whether mid - 1 can ever go below 0
+    // TODO fix bug where mid - 1 can sometimes go below 0
     while left <= right {
         // Below formula is equivalent to (right - left)/2 + left
         mid  = (left + right) / 2; 
@@ -94,32 +94,56 @@ mod tests {
          assert_eq!(result, None);
      }
 
-     #[test]
-     fn bs_num_missing_list() {
-         let list = [-4,8,12,50,92];
-         let val = 4;
-         let oracle = linear_search(&list, val);
-         let result = binary_search(&list, val);
-         assert_eq!(result, oracle);
-     }
+    #[test]
+    fn bs_num_missing_odd_list() {
+        let list = [10,20,30,40,50,60,70,80,90];
+        let values = [5,15,25,35,45,55,65,75,85,95];
+        
+        for val in values.into_iter() {
+            let oracle = linear_search(&list, val);
+            let result = binary_search(&list, val);
+            assert_eq!(result, oracle);
+        }
+    }
 
-     #[test]
-     fn bs_num_present_list() {
-         let list = [-4,8,12,50,92];
-         let val = 50;
-         let oracle = linear_search(&list, val);
-         let result = binary_search(&list, val);
-         assert_eq!(result, oracle);
-     }
+    #[test]
+    fn bs_num_missing_even_list() {
+        let list = [10,20,30,40,50,60,70,80,90,100];
+        let values = [5,15,25,35,45,55,65,75,85,95,105];
+        
+        for val in values.into_iter() {
+            let oracle = linear_search(&list, val);
+            let result = binary_search(&list, val);
+            assert_eq!(result, oracle);
+        }
+    }
 
-     #[test]
-     fn bs_num_present_singleton_list() {
-         let list = [50];
-         let val = 50;
-         let oracle = linear_search(&list, val);
-         let result = binary_search(&list, val);
-         assert_eq!(result, oracle);
-     }
+    #[test]
+    fn bs_num_present_odd_list() {
+        let list = [10,20,30,40,50,60,70,80,90];
+        for val in list.into_iter() {
+            let oracle = linear_search(&list, val);
+            let result = binary_search(&list, val);
+            assert_eq!(result, oracle);
+        }
+    }
 
-    
+    #[test]
+    fn bs_num_present_even_list() {
+        let list = [10,20,30,40,50,60,70,80,90,100];
+        for val in list.into_iter() {
+            let oracle = linear_search(&list, val);
+            let result = binary_search(&list, val);
+            assert_eq!(result, oracle);
+        }
+    }
+
+    #[test]
+    fn bs_num_present_singleton_list() {
+        let list = [50];
+        let val = 50;
+        let oracle = linear_search(&list, val);
+        let result = binary_search(&list, val);
+        assert_eq!(result, oracle);
+    }
 }
