@@ -1,4 +1,5 @@
 use std::cmp::Ordering::{Less,Equal,Greater};
+use std::cmp::Ord;
 
 // linear_search takes a list and a value and sees if it is in the list.
 // Each element in the list is checked one at a time.
@@ -22,7 +23,7 @@ pub fn linear_search<T>(list: &[T], value: T) -> Option<usize>
 * given: [1,2,3] and 3, expect: Some(2)
 * given: [] and 3, expect: None
 */
-fn binary_search(list: &[i32], value: i32) -> Option<usize> {
+fn binary_search<T : Ord>(list: &[T], value: T) -> Option<usize> {
     let length = list.len();
 
     // value not in an empty list
@@ -148,5 +149,13 @@ mod tests {
         let oracle = linear_search(&list, val);
         let result = binary_search(&list, val);
         assert_eq!(result, oracle);
+    }
+
+    #[test]
+    fn bs_str_missing_list() {
+        let list = ['a','b','c'];
+        let val = 'q';
+        let result = linear_search(&list, val);
+        assert_eq!(result, None);
     }
 }
